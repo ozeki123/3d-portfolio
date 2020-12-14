@@ -74,6 +74,39 @@ function handleWindowResize() {
     camera.updateProjectionMatrix();
 }
 
+// Lights
+var hemisphereLight, shadowLight;
+
+function  createLights(){
+    //hemisphereLight --> gradient colored light that takes 3 parameters: sky color, ground color, light intesity
+    hemisphereLight = new THREE.HemisphereLight(0xaaaaaa,0x000000, .9)
+
+    //Directional light shines from a certain direction
+    shadowLight = new THREE.DirectionalLight(0xffffff, .9);
+
+    //Set the light direction
+    shadowLight.position.set(150, 350, 350)
+
+    //Add shadow casting
+    shadowLight.castShadow = true;
+
+    //define visible area of shadow
+    shadowLight.shadow.camera.left = -400;
+    shadowLight.shadow.camera.right = 400;
+    shadowLight.shadow.camera.top = 400;
+    shadowLight.shadow.camera.bottom = -400;
+    shadowLight.shadow.camera.near = 1;
+    shadowLight.shadow.camera.far = 1000;
+
+    //define the resolution of the shadow
+    shadowLight.shadow.mapSize.width = 2048;
+    shadowLight.shadow.mapSize.height = 2048;
+
+    //Add lights to scene
+    scene.add(hemisphereLight);
+    scene.add(shadowLight);
+}
+
 function init() {
 	// set up the scene, camera, and renderer
 	createScene();
